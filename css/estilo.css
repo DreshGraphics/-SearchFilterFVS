@@ -1,0 +1,25 @@
+html, body{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+	overflow-x: hidden;
+}
+
+.container{
+	
+}
+
+.page-header {
+	text-align: center;
+}
+
+a:hover{
+	text-decoration: none !important;
+}
+
+@media screen and(min-width: 991px){
+	table{
+		overflow: auto;
+	}
+}
