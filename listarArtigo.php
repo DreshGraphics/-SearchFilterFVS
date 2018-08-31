@@ -7,14 +7,15 @@ $qnt_result_pg = filter_input(INPUT_POST, 'qnt_result_pg', FILTER_SANITIZE_NUMBE
 
 //calcular o inicio visualização
 $inicio = ($pagina * $qnt_result_pg) - $qnt_result_pg;
-
+echo $qnt_result_pg;
 //consultar no banco de dados
     $con = getConexao();
 
-    $resultArtigo = $con->prepare('SELECT * FROM Artigo ORDER BY IDArtigo DESC LIMIT ? OFFSET ?'); //OFFSET é o Inicio, E o LIMIT é o max
+    $resultArtigo = $con->prepare('SELECT * FROM Artigo ORDER BY IDArtigo DESC LIMIT '.$inicio.','.$qnt_result_pg.''); //OFFSET é o Inicio, E o LIMIT é o max
 
-    $resultArtigo->bindParam(1, $qnt_result_pg);
-    $resultArtigo->bindParam(2, $inicio);
+    $resultArtigo->bindValue(1, 0);
+    $resultArtigo->bindValue(2, 10);
+    
     
     $resultArtigo->execute();
 
