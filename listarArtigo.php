@@ -1,5 +1,5 @@
 <?php
-include_once "sql/conexao2.php";
+include_once "sql/conexao.php";
 
 //transformando em inteiro
 $pagina = filter_input(INPUT_POST, 'pagina', FILTER_SANITIZE_NUMBER_INT); 
@@ -9,12 +9,20 @@ $qnt_result_pg = filter_input(INPUT_POST, 'qnt_result_pg', FILTER_SANITIZE_NUMBE
 $inicio = ($pagina * $qnt_result_pg) - $qnt_result_pg;
 
 //consultar no banco de dados
+    $con = getConexao();
 
-$resultadoArtigo = mysqli_query($conn, $resultArtigo);
+    $resultArtigo = $con->prepare('SELECT * FROM Artigo ORDER BY IDArtigo DESC LIMIT ? OFFSET ?'); //OFFSET é o Inicio, E o LIMIT é o max
+
+    $resultArtigo->bindParam(1, $qnt_result_pg);
+    $resultArtigo->bindParam(2, $inicio);
+    
+    $resultArtigo->execute();
+
+    $resultadoArtigo = $resultArtigo->fetchAll(PDO::FETCH_ASSOC);
 
 
-//Verificar se encontrou resultado na tabela "Artigo"
-if(($resultadoArtigo) AND ($resultadoArtigo->num_rows != 0)){
+    //Verificar se encontrou resultado na tabela "Artigo"
+if(count($resultadoArtigo) > 0){
 	?>
 	<table class="table table-striped table-hover table-condensed">
 		<thead>
@@ -27,7 +35,7 @@ if(($resultadoArtigo) AND ($resultadoArtigo->num_rows != 0)){
 		</thead>
 		<tbody>
 			<?php
-			while($artigo = mysqli_fetch_assoc($resultadoArtigo)){
+			foreach($resultadoArtigo as $artigo){
 				?>
 				<tr>
 					<th><?php echo strlen($artigo['Titulo']) >100 ? substr($artigo['Titulo'], 0, 100) : $artigo['Titulo'];?></th>
@@ -72,9 +80,14 @@ if(($resultadoArtigo) AND ($resultadoArtigo->num_rows != 0)){
 	</table>
 <?php
 //Paginação - Somar a quantidade de artigos
-$result_pg = "SELECT COUNT(IDArtigo) AS num_result FROM Artigo";
-$resultado_pg = mysqli_query($conn, $result_pg);
-$row_pg = mysqli_fetch_assoc($resultado_pg);
+    $con = getConexao();
+
+    $result_pg = $con->prepare('SELECT COUNT(IDArtigo) AS num_result FROM Artigo');
+
+    $result_pg->execute();
+
+    $row_pg = $resultArtigo->fetch(PDO::FETCH_ASSOC);
+
 
 //Quantidade de pagina
 $quantidade_pg = ceil($row_pg['num_result'] / $qnt_result_pg);

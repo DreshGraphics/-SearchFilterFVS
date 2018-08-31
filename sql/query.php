@@ -9,14 +9,14 @@ function listaPorFiltro($campo, $valorCampo,$curso){
     $con = getConexao(); 
     
     if($campo == "PalavraP" && $curso == "default"){
-    	$prepare = $con->prepare('SELECT * FROM artigo WHERE (Curso LIKE "%'.$valorCampo.'%" OR Titulo LIKE"%'.$valorCampo.'%" OR Autor LIKE"%'.$valorCampo.'%" OR Orientador LIKE"%'.$valorCampo.'%")');
+    	$prepare = $con->prepare('SELECT * FROM artigo WHERE (Curso LIKE "%'.$valorCampo.'%" OR Titulo LIKE"%'.$valorCampo.'%" OR Autor LIKE"%'.$valorCampo.'%" OR Orientador LIKE"%'.$valorCampo.'%") ORDER BY IDArtigo DESC');
     }else if($campo == "PalavraP" && $curso != "default"){
-    	$prepare = $con->prepare('SELECT * FROM artigo WHERE (Curso LIKE "%'.$curso.'%" AND (Titulo LIKE"%'.$valorCampo.'%" OR Autor LIKE"%'.$valorCampo.'%" OR Orientador LIKE"%'.$valorCampo.'%"))');
+    	$prepare = $con->prepare('SELECT * FROM artigo WHERE (Curso LIKE "%'.$curso.'%" AND (Titulo LIKE"%'.$valorCampo.'%" OR Autor LIKE"%'.$valorCampo.'%" OR Orientador LIKE"%'.$valorCampo.'%")) ORDER BY IDArtigo DESC');
     }
     if($campo != "PalavraP" && $curso != "default"){
-    	$prepare = $con->prepare('SELECT * FROM artigo WHERE '.$campo.' LIKE "%'.$valorCampo.'%" AND Curso ="'.$curso.'"');
+    	$prepare = $con->prepare('SELECT * FROM artigo WHERE '.$campo.' LIKE "%'.$valorCampo.'%" AND Curso ="'.$curso.'"ORDER BY IDArtigo DESC');
     }else if($campo != "PalavraP" && $curso = "default"){
-    	$prepare = $con->prepare('SELECT * FROM artigo WHERE '.$campo.' LIKE "%'.$valorCampo.'%"');
+    	$prepare = $con->prepare('SELECT * FROM artigo WHERE '.$campo.' LIKE "%'.$valorCampo.'%" ORDER BY IDArtigo DESC');
     }
     
     $prepare->execute();
@@ -32,7 +32,7 @@ function listaTodos(){
 
     $con = getConexao(); 
 
-    $prepare = $con->prepare('SELECT * FROM artigo');
+    $prepare = $con->prepare('SELECT * FROM artigo ORDER BY IDArtigo DESC');
 	
     $prepare->execute();
 
