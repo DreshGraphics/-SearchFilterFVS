@@ -100,7 +100,7 @@
                         <p><strong>Curso:</strong></p>
                         <p><?php echo $artigo['Curso']; ?></p>
                         <p><strong>Resumo:</strong></p>
-                        <p><?php echo $artigo['Resumo']; ?></p>
+                        <p align="justify"><?php echo $artigo['Resumo']; ?></p>
                         <p><strong>Ano da Publicação:</strong></p>
                         <p><?php echo $artigo['AnoP']; ?></p>
                       </div>
