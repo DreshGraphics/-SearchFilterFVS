@@ -76,12 +76,38 @@
            <td width="15%"><?php echo $artigo['Autor'] ?></td>
            <td width="25%"><?php echo strlen($artigo['Curso']) >26 ? substr($artigo['Curso'], 0, 26) : $artigo['Curso'] ?></td>
            <td width="10%">
-             <button type="button" class="btn btn-info btn-xs">
+             <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal<?php echo $artigo['IDArtigo']; ?>">
              <span class="glyphicon glyphicon-info-sign"></span>
              Detalhes
              </button>
            </td>
          </tr>
+
+         <!-- Inicio Modal -->
+                <div class="modal fade" id="myModal<?php echo $artigo['IDArtigo']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      </div>
+                      <div class="modal-body">
+                        <p><strong>Titulo:</strong></p>
+                        <p><?php echo $artigo['Titulo']; ?></p>
+                        <p><strong>Autor:</strong></p>
+                        <p><?php echo $artigo['Autor']; ?></p>
+                        <p><strong>Orientador:</strong></p>
+                        <p><?php echo $artigo['Orientador']; ?></p>
+                        <p><strong>Curso:</strong></p>
+                        <p><?php echo $artigo['Curso']; ?></p>
+                        <p><strong>Resumo:</strong></p>
+                        <p><?php echo $artigo['Resumo']; ?></p>
+                        <p><strong>Ano da Publicação:</strong></p>
+                        <p><?php echo $artigo['AnoP']; ?></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Fim Modal -->
 
        <?php endforeach; ?>
       </tbody>
@@ -90,7 +116,7 @@
 
   <div class="row">
     <nav aria-label="Navegação de página exemplo">
-      <ul class="pagination justify-content-center">
+      <ul class="pagination">
         <li class="page-item">
           <a class="page-link" href="#" aria-label="Anterior">
             <span aria-hidden="true">&laquo;</span>
@@ -111,8 +137,14 @@
     </nav>
   </div>
 
+
   </div>
   </div>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="bootstrap/js/bootstrap.min.js"></script>
 
 </body>
 </html>
