@@ -3,12 +3,12 @@
 require_once 'conexao.php';
 
 
-function listaPorFiltro($campo, $valorCampo){	
+function listaPorFiltro($campo, $valorCampo,$curso){	
   try {
 
     $con = getConexao(); 
 
-    $prepare = $con->prepare('SELECT * FROM artigo WHERE '.$campo.' LIKE "%'.$valorCampo.'%"');
+    $prepare = $con->prepare('SELECT * FROM artigo WHERE '.$campo.' LIKE "%'.$valorCampo.'%" AND Curso ="'.$curso.'"');
 	
     $prepare->execute();
 

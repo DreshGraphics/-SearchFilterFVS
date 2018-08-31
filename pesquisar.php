@@ -65,11 +65,12 @@
             include_once 'sql/query.php';  
             $valor = $_GET['search'];
             $tCampo = $_GET['autor'];
-            //$tCurso = $_GET['cursos'];
+            $tCurso = $_GET['cursos'];
             if($tCampo =="PalavraP"){
-              $Artigos = listaPorFiltro($tCampo,$valor);
+              //$Artigos = listaPorFiltro($tCampo,$valor,$tCurso);
+              //ainda vou fazer a exceção para tratar essa parte
             }else{
-              $Artigos = listaPorFiltro($tCampo,$valor);
+              $Artigos = listaPorFiltro($tCampo,$valor,$tCurso);
             }
                    
               foreach ($Artigos as $artigo):
