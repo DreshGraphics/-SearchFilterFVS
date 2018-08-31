@@ -62,9 +62,17 @@
       <tbody>
         <?php   
         //$tabela, $campo, $valorCampo  
-            include_once 'sql/query.php';        
-            $Artigos = listaTodos();        
-            foreach ($Artigos as $artigo):
+            include_once 'sql/query.php';  
+            $valor = $_GET['search'];
+            $tCampo = $_GET['autor'];
+            //$tCurso = $_GET['cursos'];
+            if($tCampo =="PalavraP"){
+              $Artigos = listaPorFiltro($tCampo,$valor);
+            }else{
+              $Artigos = listaPorFiltro($tCampo,$valor);
+            }
+                   
+              foreach ($Artigos as $artigo):
 
          ?>
 

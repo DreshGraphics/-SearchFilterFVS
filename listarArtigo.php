@@ -9,7 +9,7 @@ $qnt_result_pg = filter_input(INPUT_POST, 'qnt_result_pg', FILTER_SANITIZE_NUMBE
 $inicio = ($pagina * $qnt_result_pg) - $qnt_result_pg;
 
 //consultar no banco de dados
-$resultArtigo = "SELECT * FROM Artigo ORDER BY IDArtigo DESC LIMIT $inicio, $qnt_result_pg";
+
 $resultadoArtigo = mysqli_query($conn, $resultArtigo);
 
 
