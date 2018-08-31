@@ -1,0 +1,102 @@
+<?php
+include_once "sql/conexao2.php";
+
+$pagina = filter_input(INPUT_POST, 'pagina', FILTER_SANITIZE_NUMBER_INT);
+$qnt_result_pg = filter_input(INPUT_POST, 'qnt_result_pg', FILTER_SANITIZE_NUMBER_INT);
+//calcular o inicio visualização
+$inicio = ($pagina * $qnt_result_pg) - $qnt_result_pg;
+
+//consultar no banco de dados
+$resultArtigo = "SELECT * FROM Artigo ORDER BY IDArtigo DESC LIMIT $inicio, $qnt_result_pg";
+$resultadoArtigo = mysqli_query($conn, $resultArtigo);
+
+
+//Verificar se encontrou resultado na tabela "Artigo"
+if(($resultadoArtigo) AND ($resultadoArtigo->num_rows != 0)){
+	?>
+	<table class="table table-striped table-hover table-condensed">
+		<thead>
+			<tr>
+				<th width="40%">Titulo:</th>
+        		<th width="15%">Autor:</th>
+        		<th width="25%">Curso:</th>
+        		<th width="10%"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php
+			while($artigo = mysqli_fetch_assoc($resultadoArtigo)){
+				?>
+				<tr>
+					<th><?php echo strlen($artigo['Titulo']) >100 ? substr($artigo['Titulo'], 0, 100) : $artigo['Titulo'];?></th>
+					<td><?php echo $artigo['Autor']; ?></td>
+					<td><?php echo strlen($artigo['Curso']) >26 ? substr($artigo['Curso'], 0, 26) : $artigo['Curso']; ?></td>
+					<td width="10%">
+             			<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal<?php echo $artigo['IDArtigo']; ?>">
+             			<span class="glyphicon glyphicon-info-sign"></span>
+            		 		Detalhes
+             			</button>
+           			</td>
+
+				</tr>
+
+				<div class="modal fade" id="myModal<?php echo $artigo['IDArtigo']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      </div>
+                      <div class="modal-body">
+                        <p><strong>Titulo:</strong></p>
+                        <p><?php echo $artigo['Titulo']; ?></p>
+                        <p><strong>Autor:</strong></p>
+                        <p><?php echo $artigo['Autor']; ?></p>
+                        <p><strong>Orientador:</strong></p>
+                        <p><?php echo $artigo['Orientador']; ?></p>
+                        <p><strong>Curso:</strong></p>
+                        <p><?php echo $artigo['Curso']; ?></p>
+                        <p><strong>Resumo:</strong></p>
+                        <p align="justify"><?php echo $artigo['Resumo']; ?></p>
+                        <p><strong>Ano da Publicação:</strong></p>
+                        <p><?php echo $artigo['AnoP']; ?></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+				
+				<?php
+			}?>
+		</tbody>
+	</table>
+<?php
+//Paginação - Somar a quantidade de artigos
+$result_pg = "SELECT COUNT(IDArtigo) AS num_result FROM Artigo";
+$resultado_pg = mysqli_query($conn, $result_pg);
+$row_pg = mysqli_fetch_assoc($resultado_pg);
+
+//Quantidade de pagina
+$quantidade_pg = ceil($row_pg['num_result'] / $qnt_result_pg);
+
+//Limitar os link antes depois
+$max_links = 2;
+
+echo "<a href='#' onclick='listarArtigo(1, $qnt_result_pg)'>Primeira</a> ";
+
+for($pag_ant = $pagina - $max_links; $pag_ant <= $pagina - 1; $pag_ant++){
+	if($pag_ant >= 1){
+		echo " <a href='#' onclick='listarArtigo($pag_ant, $qnt_result_pg)'>$pag_ant </a> ";
+	}
+}
+
+echo " $pagina ";
+
+for ($pag_dep = $pagina + 1; $pag_dep <= $pagina + $max_links; $pag_dep++) {
+	if($pag_dep <= $quantidade_pg){
+		echo " <a href='#' onclick='listarArtigo($pag_dep, $qnt_result_pg)'>$pag_dep</a> ";
+	}
+}
+
+echo " <a href='#' onclick='listarArtigo($quantidade_pg, $qnt_result_pg)'>Última</a>";
+}else{
+	echo "<div class='alert alert-danger' role='alert'>Nenhum artigo encontrado!</div>";
+}
