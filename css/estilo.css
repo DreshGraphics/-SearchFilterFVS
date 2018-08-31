@@ -6,10 +6,6 @@ html, body{
 	overflow-x: hidden;
 }
 
-.container{
-	overflow: hidden;
-}
-
 .page-header {
 	text-align: center;
 }

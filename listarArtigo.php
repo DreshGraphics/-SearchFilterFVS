@@ -1,8 +1,10 @@
 <?php
 include_once "sql/conexao2.php";
 
-$pagina = filter_input(INPUT_POST, 'pagina', FILTER_SANITIZE_NUMBER_INT);
+//transformando em inteiro
+$pagina = filter_input(INPUT_POST, 'pagina', FILTER_SANITIZE_NUMBER_INT); 
 $qnt_result_pg = filter_input(INPUT_POST, 'qnt_result_pg', FILTER_SANITIZE_NUMBER_INT);
+
 //calcular o inicio visualização
 $inicio = ($pagina * $qnt_result_pg) - $qnt_result_pg;
 
@@ -80,23 +82,32 @@ $quantidade_pg = ceil($row_pg['num_result'] / $qnt_result_pg);
 //Limitar os link antes depois
 $max_links = 2;
 
-echo "<a href='#' onclick='listarArtigo(1, $qnt_result_pg)'>Primeira</a> ";
-
-for($pag_ant = $pagina - $max_links; $pag_ant <= $pagina - 1; $pag_ant++){
-	if($pag_ant >= 1){
-		echo " <a href='#' onclick='listarArtigo($pag_ant, $qnt_result_pg)'>$pag_ant </a> ";
+	echo '<nav aria-label="paginacao">';
+	echo '<ul class="pagination">';
+	echo '<li class="page-item">';
+	echo "<span class='page-link'><a href='#' onclick='listarArtigo(1, $qnt_result_pg)'>Primeira</a> </span>";
+	echo '</li>';
+	for ($pag_ant = $pagina - $max_links; $pag_ant <= $pagina - 1; $pag_ant++) {
+		if($pag_ant >= 1){
+			echo "<li class='page-item'><a class='page-link' href='#' onclick='listarArtigo($pag_ant, $qnt_result_pg)'>$pag_ant </a></li>";
+		}
 	}
-}
+	echo '<li class="page-item active">';
+	echo '<span class="page-link">';
+	echo "$pagina";
+	echo '</span>';
+	echo '</li>';
 
-echo " $pagina ";
-
-for ($pag_dep = $pagina + 1; $pag_dep <= $pagina + $max_links; $pag_dep++) {
-	if($pag_dep <= $quantidade_pg){
-		echo " <a href='#' onclick='listarArtigo($pag_dep, $qnt_result_pg)'>$pag_dep</a> ";
+	for ($pag_dep = $pagina + 1; $pag_dep <= $pagina + $max_links; $pag_dep++) {
+		if($pag_dep <= $quantidade_pg){
+			echo "<li class='page-item'><a class='page-link' href='#' onclick='listarArtigo($pag_dep, $qnt_result_pg)'>$pag_dep</a></li>";
+		}
 	}
-}
-
-echo " <a href='#' onclick='listarArtigo($quantidade_pg, $qnt_result_pg)'>Última</a>";
+	echo '<li class="page-item">';
+	echo "<span class='page-link'><a href='#' onclick='listarArtigo($quantidade_pg, $qnt_result_pg)'>Última</a></span>";
+	echo '</li>';
+	echo '</ul>';
+	echo '</nav>';
 }else{
 	echo "<div class='alert alert-danger' role='alert'>Nenhum artigo encontrado!</div>";
 }
