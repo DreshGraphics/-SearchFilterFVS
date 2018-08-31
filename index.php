@@ -62,8 +62,10 @@
       <tbody>
         <?php   
         //$tabela, $campo, $valorCampo  
-            include_once 'sql/query.php';        
-            $Artigos = listaTodos();        
+            include_once 'sql/query.php';  
+           
+            $Artigos = listaTodos();
+               
             foreach ($Artigos as $artigo):
 
          ?>
