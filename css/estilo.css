@@ -7,7 +7,7 @@ html, body{
 }
 
 .container{
-	
+	overflow: hidden;
 }
 
 .page-header {
@@ -16,10 +16,4 @@ html, body{
 
 a:hover{
 	text-decoration: none !important;
-}
-
-@media screen and(min-width: 991px){
-	table{
-		overflow: auto;
-	}
 }

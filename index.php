@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Busca</title>
+    <title>Buscar TCC</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/estilo.css" rel="stylesheet">
 </head>
@@ -13,17 +13,17 @@
 	<div class="container">
     <div class="col-sm-10 col-sm-offset-1">  
     <div class="page-header">
-        <h1>Usuários</h1>
+        <h1>Buscar TCC</h1>
     </div>
 
     <div class="table-responsive">
 
-      <div class="row">
+      <div class="row col-sm-12">
         <div class="form-group col-sm-5">
           <input type="text" name="search" placeholder="busca" class="form-control">
         </div>
 
-        <div class="form-group col-sm-2">
+        <div class="form-group col-sm-3">
           <select class="form-control">
             <option value="Autor">Autor</option>
             <option value="Titulo">Titulo</option>
@@ -32,7 +32,7 @@
           </select>
         </div>
 
-        <div class="form-group col-sm-3">
+        <div class="input-group col-sm-4">
           <select class="form-control">
             <option value="default">Todos</option>
             <option value="Administração">Administração</option>
@@ -45,14 +45,20 @@
             <option value="Psicologia">Psicologia</option>
             <option value="Serviço Social">Serviço Social</option>
           </select>
+          <span class="input-group-btn">
+              <button class="btn btn-default" type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+              </button> 
+          </span>
         </div>
       </div>
 
-    <table class="table table-striped table-bordered table-hover table-condensed">
+    <table class="table table-striped table-hover table-condensed">
       <thead>
-        <th>Titulo:</th>
-        <th>Autor:</th>
-        <th>Curso:</th>
+        <th width="40%">Titulo:</th>
+        <th width="15%">Autor:</th>
+        <th width="25%">Curso:</th>
+        <th width="10%"></th>
       </thead>
       <tbody>
         <?php
@@ -66,14 +72,43 @@
          ?>
 
          <tr>
-           <td><?php echo $artigo['Titulo'] ?></td>
-           <td><?php echo $artigo['Autor'] ?></td>
-           <td><?php echo $artigo['Curso'] ?></td>
+           <td width="40%"><?php echo strlen($artigo['Titulo']) >100 ? substr($artigo['Titulo'], 0, 100) : $artigo['Titulo'] ?></td>
+           <td width="15%"><?php echo $artigo['Autor'] ?></td>
+           <td width="25%"><?php echo strlen($artigo['Curso']) >26 ? substr($artigo['Curso'], 0, 26) : $artigo['Curso'] ?></td>
+           <td width="10%">
+             <button type="button" class="btn btn-info btn-xs">
+             <span class="glyphicon glyphicon-info-sign"></span>
+             Detalhes
+             </button>
+           </td>
          </tr>
 
        <?php endforeach; ?>
       </tbody>
   </table>
+  </div>
+
+  <div class="row">
+    <nav aria-label="Navegação de página exemplo">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Anterior">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Anterior</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Próximo">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Próximo</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 
   </div>
