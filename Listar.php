@@ -20,14 +20,14 @@
     </div>
 
     <div class="table-responsive">
-
+      <form action="Listar.php" method="GET" id="filtroBusca">
       <div class="row col-sm-12">
         <div class="form-group col-sm-5">
           <input type="text" name="search" placeholder="busca" class="form-control">
         </div>
 
         <div class="form-group col-sm-3">
-          <select class="form-control">
+          <select class="form-control" name="autor">
             <option value="Autor">Autor</option>
             <option value="Titulo">Titulo</option>
             <option value="Orientador">Orientador</option>
@@ -36,7 +36,7 @@
         </div>
 
         <div class="input-group col-sm-4">
-          <select class="form-control">
+          <select class="form-control" name="cursos">
             <option value="default">Todos</option>
             <option value="Administração">Administração</option>
             <option value="Análise e Desenvolvimento de Sistemas">Análise</option>
@@ -49,16 +49,24 @@
             <option value="Serviço Social">Serviço Social</option>
           </select>
           <span class="input-group-btn">
-              <button class="btn btn-default" type="submit">
+              <button class="btn btn-default" type="submit" method="POST">
                 <span class="glyphicon glyphicon-search"></span>
               </button> 
           </span>
         </div>
       </div>
+    </form>
 		
 		<script>
 			var qnt_result_pg = 10; //quantidade de registro por página
 			var pagina = 1; //página inicial
+      var frm = $('#filtroBusca');
+
+      frm.on('submit', function(e){
+        e.preventDefault();
+        listarArtigo(pagina, qnt_result_pg);
+      });
+
 			$(document).ready(function () {
 				listarArtigo(pagina, qnt_result_pg); //Chamar a função para listar os registros
 			});
@@ -66,7 +74,10 @@
 			function listarArtigo(pagina, qnt_result_pg){
 				var dados = {
 					pagina: pagina,
-					qnt_result_pg: qnt_result_pg
+					qnt_result_pg: qnt_result_pg,
+          search : frm.find('input[name=search]').val(),
+          autor : frm.find('select[name=autor]').val(),
+          cursos : frm.find('select[name=cursos]').val()
 				}
 				$.post('listarArtigo.php', dados , function(retorna){
 					//Subtitui o valor no seletor id="conteudo"

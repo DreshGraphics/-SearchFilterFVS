@@ -4,11 +4,11 @@ USE SearchFilterFVS;
 
 CREATE TABLE IF NOT EXISTS Artigo (
   IDArtigo int(11) NOT NULL AUTO_INCREMENT,
-  Titulo varchar(100) NOT NULL,
+  Titulo varchar(200) NOT NULL,
   Autor varchar(250) NOT NULL,
   Orientador varchar(100) NOT NULL,
   Curso varchar(50) NOT NULL,
-  Resumo varchar(2000) NOT NULL,
+  Resumo varchar(3000) NOT NULL,
   AnoP int(4) NOT NULL,
   PalavraC varchar(100) NOT NULL,
   PRIMARY KEY (IDArtigo)

@@ -15,7 +15,7 @@
     <div class="page-header">
         <h1>Buscar TCC</h1>
     </div>
-<form action="index.php" method="POST">
+<form action="index.php" method="GET">
     <div class="table-responsive">
       <div class="row col-sm-12">
         <div class="form-group col-sm-5">
@@ -45,7 +45,7 @@
             <option value="Serviço Social">Serviço Social</option>
           </select>
           <span class="input-group-btn">
-              <button class="btn btn-default" type="submit" method="GET">
+              <button class="btn btn-default" type="submit" method="POST">
                 <span class="glyphicon glyphicon-search"></span>
               </button> 
           </span>    
@@ -63,7 +63,7 @@
         <?php   
         //$campo, $valorCampo,$curso  
           include_once 'sql/query.php';  
-          if(!empty($_POST)){ 
+          if($_POST){ 
             $valor = $_POST['search'];     
             $tCampo = $_POST['autor'];
             $tCurso = $_POST['cursos'];
@@ -80,9 +80,9 @@
          ?>
 
          <tr>
-           <td width="40%"><?php echo strlen($artigo['Titulo']) >100 ? substr($artigo['Titulo'], 0, 100) : $artigo['Titulo'] ?></td>
+           <td width="40%"><?php echo strlen($artigo['Titulo']) >110 ? substr($artigo['Titulo'], 0, 110) : $artigo['Titulo'] ?></td>
            <td width="15%"><?php echo $artigo['Autor'] ?></td>
-           <td width="25%"><?php echo strlen($artigo['Curso']) >26 ? substr($artigo['Curso'], 0, 26) : $artigo['Curso'] ?></td>
+           <td width="25%"><?php echo $artigo['Curso'] ?></td>
            <td width="10%">
              <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal<?php echo $artigo['IDArtigo']; ?>">
              <span class="glyphicon glyphicon-info-sign"></span>
@@ -144,7 +144,6 @@
       </ul>
     </nav>
   </div>
-
 
   </div>
   </div>

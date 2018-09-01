@@ -7,22 +7,20 @@ $qnt_result_pg = filter_input(INPUT_POST, 'qnt_result_pg', FILTER_SANITIZE_NUMBE
 
 //calcular o inicio visualização
 $inicio = ($pagina * $qnt_result_pg) - $qnt_result_pg;
-echo $qnt_result_pg;
+
 //consultar no banco de dados
     $con = getConexao();
 
     $resultArtigo = $con->prepare('SELECT * FROM Artigo ORDER BY IDArtigo DESC LIMIT '.$inicio.','.$qnt_result_pg.''); //OFFSET é o Inicio, E o LIMIT é o max
-
-    $resultArtigo->bindValue(1, 0);
-    $resultArtigo->bindValue(2, 10);
-    
     
     $resultArtigo->execute();
 
-    $resultadoArtigo = $resultArtigo->fetchAll(PDO::FETCH_ASSOC);
+    $resultadoArtigo = $resultArtigo->fetchAll(PDO::FETCH_ASSOC); 
+
+    $resultArtigo->closeCursor();
 
 
-    //Verificar se encontrou resultado na tabela "Artigo"
+//Verificar se encontrou resultado na tabela "Artigo"
 if(count($resultadoArtigo) > 0){
 	?>
 	<table class="table table-striped table-hover table-condensed">
@@ -36,12 +34,25 @@ if(count($resultadoArtigo) > 0){
 		</thead>
 		<tbody>
 			<?php
-			foreach($resultadoArtigo as $artigo){
+
+			include_once 'sql/query.php';
+	          	if(!empty($_POST)){ 
+		            $valor = $_POST['search'];     
+		            $tCampo = $_POST['autor'];
+		            $tCurso = $_POST['cursos'];
+
+		            $Artigos = listaPorFiltro($tCampo,$valor,$tCurso,$inicio,$qnt_result_pg);
+		        }else{
+		        	$Artigos = listaTodos(); 
+		        }
+
+
+			foreach($Artigos as $artigo){
 				?>
 				<tr>
-					<th><?php echo strlen($artigo['Titulo']) >100 ? substr($artigo['Titulo'], 0, 100) : $artigo['Titulo'];?></th>
+					<td><?php echo strlen($artigo['Titulo']) >110 ? substr($artigo['Titulo'], 0, 110) : $artigo['Titulo'];?></td>
 					<td><?php echo $artigo['Autor']; ?></td>
-					<td><?php echo strlen($artigo['Curso']) >26 ? substr($artigo['Curso'], 0, 26) : $artigo['Curso']; ?></td>
+					<td><?php echo $artigo['Curso']; ?></td>
 					<td width="10%">
              			<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal<?php echo $artigo['IDArtigo']; ?>">
              			<span class="glyphicon glyphicon-info-sign"></span>
@@ -80,18 +91,21 @@ if(count($resultadoArtigo) > 0){
 		</tbody>
 	</table>
 <?php
+
 //Paginação - Somar a quantidade de artigos
     $con = getConexao();
 
-    $result_pg = $con->prepare('SELECT COUNT(IDArtigo) AS num_result FROM Artigo');
+    $result_pg = $con->prepare('SELECT COUNT(IDArtigo) AS num_result FROM Artigo'); 
 
     $result_pg->execute();
 
-    $row_pg = $resultArtigo->fetch(PDO::FETCH_ASSOC);
+    $num_result = $result_pg->fetch(PDO::FETCH_ASSOC);
+
+    $result_pg->closeCursor();
 
 
 //Quantidade de pagina
-$quantidade_pg = ceil($row_pg['num_result'] / $qnt_result_pg);
+$quantidade_pg = ceil(listaPorFiltroQtd($tCampo,$valor,$tCurso) / $qnt_result_pg);
 
 //Limitar os link antes depois
 $max_links = 2;
