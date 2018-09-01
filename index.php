@@ -15,7 +15,7 @@
     <div class="page-header">
         <h1>Buscar TCC</h1>
     </div>
-<form action="pesquisar.php" method="GET">
+<form action="index.php" method="POST">
     <div class="table-responsive">
       <div class="row col-sm-12">
         <div class="form-group col-sm-5">
@@ -61,10 +61,19 @@
       </thead>
       <tbody>
         <?php   
-        //$tabela, $campo, $valorCampo  
-            include_once 'sql/query.php';  
-           
+        //$campo, $valorCampo,$curso  
+          include_once 'sql/query.php';  
+          if(!empty($_POST)){ 
+            $valor = $_POST['search'];     
+            $tCampo = $_POST['autor'];
+            $tCurso = $_POST['cursos'];
+            $Artigos = listaPorFiltro($tCampo,$valor,$tCurso);
+          }else{
             $Artigos = listaTodos();
+          }
+
+           //var_dump($_POST);   
+         
                
             foreach ($Artigos as $artigo):
 
