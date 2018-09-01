@@ -2,7 +2,7 @@
 
 $servidor = "localhost";
 $usuario = "root";
-$senha = "kqklpi123";
+$senha = "";
 $dbname = "SearchFilterFVS";
 
 $conn = mysqli_connect($servidor, $usuario, $senha, $dbname);
