@@ -19,15 +19,16 @@
         <h1>Buscar TCC</h1>     
     </div>
 
+    <form action="" method="post">
     <div class="table-responsive">
 
       <div class="row col-sm-12">
         <div class="form-group col-sm-5">
-          <input type="text" name="search" placeholder="busca" class="form-control">
+          <input type="text" name="campo" placeholder="busca" class="form-control">
         </div>
 
         <div class="form-group col-sm-3">
-          <select class="form-control">
+          <select class="form-control" name="valorCampo">
             <option value="Autor">Autor</option>
             <option value="Titulo">Titulo</option>
             <option value="Orientador">Orientador</option>
@@ -36,7 +37,7 @@
         </div>
 
         <div class="input-group col-sm-4">
-          <select class="form-control">
+          <select class="form-control" name="curso">
             <option value="default">Todos</option>
             <option value="Administração">Administração</option>
             <option value="Análise e Desenvolvimento de Sistemas">Análise</option>
@@ -49,12 +50,13 @@
             <option value="Serviço Social">Serviço Social</option>
           </select>
           <span class="input-group-btn">
-              <button class="btn btn-default" type="submit">
+              <button class="btn btn-default" type="submit" method="POST">
                 <span class="glyphicon glyphicon-search"></span>
               </button> 
           </span>
         </div>
       </div>
+      </form>
 		
 		<script>
 			var qnt_result_pg = 10; //quantidade de registro por página

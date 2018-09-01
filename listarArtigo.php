@@ -7,7 +7,7 @@ $qnt_result_pg = filter_input(INPUT_POST, 'qnt_result_pg', FILTER_SANITIZE_NUMBE
 
 //calcular o inicio visualização
 $inicio = ($pagina * $qnt_result_pg) - $qnt_result_pg;
-echo $qnt_result_pg;
+
 //consultar no banco de dados
     $con = getConexao();
 
@@ -36,6 +36,15 @@ if(count($resultadoArtigo) > 0){
 		</thead>
 		<tbody>
 			<?php
+
+			//include_once 'sql/query.php';  
+            //$campo = $_POST['search'];
+            //$valorCampo = $_POST['autor'];
+            //$curso = $_POST['cursos'];
+
+            
+            //$resultadoArtigo = listaPorFiltro($campo, $valorCampo,$curso);
+
 			foreach($resultadoArtigo as $artigo){
 				?>
 				<tr>
@@ -83,45 +92,49 @@ if(count($resultadoArtigo) > 0){
 //Paginação - Somar a quantidade de artigos
     $con = getConexao();
 
-    $result_pg = $con->prepare('SELECT COUNT(IDArtigo) AS num_result FROM Artigo');
+	$result_pg = $con->prepare('SELECT COUNT(IDArtigo) AS num_result FROM Artigo');
 
-    $result_pg->execute();
+	$result_pg->execute();
 
-    $row_pg = $resultArtigo->fetch(PDO::FETCH_ASSOC);
+	$num_result = $result_pg->fetch(PDO::FETCH_ASSOC);
+
+	$result_pg->closeCursor();
 
 
 //Quantidade de pagina
-$quantidade_pg = ceil($row_pg['num_result'] / $qnt_result_pg);
+	$quantidade_pg = ceil(intval($num_result['num_result']) / $qnt_result_pg);
 
 //Limitar os link antes depois
 $max_links = 2;
 
-	echo '<nav aria-label="paginacao">';
-	echo '<ul class="pagination">';
-	echo '<li class="page-item">';
-	echo "<span class='page-link'><a href='#' onclick='listarArtigo(1, $qnt_result_pg)'>Primeira</a> </span>";
-	echo '</li>';
-	for ($pag_ant = $pagina - $max_links; $pag_ant <= $pagina - 1; $pag_ant++) {
-		if($pag_ant >= 1){
-			echo "<li class='page-item'><a class='page-link' href='#' onclick='listarArtigo($pag_ant, $qnt_result_pg)'>$pag_ant </a></li>";
+		echo '<nav aria-label="paginacao">';
+		echo '<ul class="pagination">';
+		echo '<li class="page-item">';
+		echo "<span class='page-link'><a href='#' onclick='listarArtigo(1, $qnt_result_pg)'>Primeira</a> </span>";
+		echo '</li>';
+		for ($pag_ant = $pagina - $max_links; $pag_ant <= $pagina - 1; $pag_ant++) {
+			if($pag_ant >= 1){
+				echo "<li class='page-item'><a class='page-link' href='#' onclick='listarArtigo($pag_ant, $qnt_result_pg)'>$pag_ant </a></li>";
+			}
 		}
-	}
-	echo '<li class="page-item active">';
-	echo '<span class="page-link">';
-	echo "$pagina";
-	echo '</span>';
-	echo '</li>';
+		echo '<li class="page-item active">';
+		echo '<span class="page-link">';
+		echo "$pagina";
+		echo '</span>';
+		echo '</li>';
 
-	for ($pag_dep = $pagina + 1; $pag_dep <= $pagina + $max_links; $pag_dep++) {
-		if($pag_dep <= $quantidade_pg){
-			echo "<li class='page-item'><a class='page-link' href='#' onclick='listarArtigo($pag_dep, $qnt_result_pg)'>$pag_dep</a></li>";
+		for ($pag_dep = $pagina + 1; $pag_dep <= $pagina + $max_links; $pag_dep++) {
+			if($pag_dep <= $quantidade_pg){
+				echo "<li class='page-item'><a class='page-link' href='#' onclick='listarArtigo($pag_dep, $qnt_result_pg)'>$pag_dep</a></li>";
+			}
 		}
-	}
-	echo '<li class="page-item">';
-	echo "<span class='page-link'><a href='#' onclick='listarArtigo($quantidade_pg, $qnt_result_pg)'>Última</a></span>";
-	echo '</li>';
-	echo '</ul>';
-	echo '</nav>';
+		echo '<li class="page-item">';
+		echo "<span class='page-link'><a href='#' onclick='listarArtigo($quantidade_pg, $qnt_result_pg)'>Última</a></span>";
+		echo '</li>';
+		echo '</ul>';
+		echo '</nav>';
+	
 }else{
 	echo "<div class='alert alert-danger' role='alert'>Nenhum artigo encontrado!</div>";
+	echo "<a href='index.php'><button class='btn btn-default' type='submit'>VOLTAR</button>";
 }
