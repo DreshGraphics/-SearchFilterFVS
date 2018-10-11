@@ -7,7 +7,7 @@
 
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/estilo.css" rel="stylesheet">
-    <title>Lista de Clientes</title>
+    <title>Lista de TCC</title>
   </head>
   <body>
     
@@ -16,7 +16,7 @@
     <div class="col-sm-10 col-sm-offset-1">  
     <div class="page-header">
         <a class="btn btn-default" href="cadastrar.php" role="button">Cadastrar Novo</a>
-        <h1>Clientes</h1>
+        <h1>TCC</h1>
     </div>
 
     <div class="table-responsive">
@@ -28,6 +28,7 @@
         <th>Curso:</th>
         <th>Resumo:</th>
         <th>Ano de Publicação:</th>
+        <th>Ação</th>
       </thead>
       <tbody>
         <?php

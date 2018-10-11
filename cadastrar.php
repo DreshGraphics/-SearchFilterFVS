@@ -71,9 +71,7 @@
              </div>
              <div class="form-group">
                 <label for="resumo">Resumo:</label>
-                <textarea rows="10" cols="50" type="text" name="resumo" class="form-control" value="" required >
-                  <?php echo isset($artigo) ? $artigo['Resumo'] : '' ?>
-                </textarea>
+                <textarea rows="10" cols="50" type="text" name="resumo" class="form-control" value="" required><?php echo isset($artigo) ? $artigo['Resumo'] : '' ?></textarea>
              </div>
              <div class="form-group">
                 <label for="anop">Ano:</label>
